@@ -16,4 +16,4 @@
 
 #pragma once
 // TODO(template): Insert the name of your backend below
-#define NAMESPACE REPLACE_ME
+#define NAMESPACE banma

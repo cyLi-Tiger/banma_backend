@@ -1,0 +1,37 @@
+name: "km"
+backend: "banma"
+max_batch_size: 2
+input [
+  {
+    name: "matrix"
+    data_type: TYPE_FP32
+    dims: [ 2667, 2667 ]
+  }
+]
+output [
+  {
+    name: "vec1"
+    data_type: TYPE_FP32
+    dims: [ 2667, 1 ]
+  }, 
+  {
+    name: "vec2"
+    data_type: TYPE_FP32
+    dims: [ 2667, 1 ]
+  }, 
+  {
+    name: "cost"
+    data_type: TYPE_FP32
+    dims: [ 1, 1 ]
+  }
+]
+instance_group [{ kind: KIND_GPU }]
+parameters [
+  {
+    key: "epsilon"
+    value: { string_value: "1e-4" }
+  }
+]
+dynamic_batching {
+  max_queue_delay_microseconds: 100
+}

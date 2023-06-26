@@ -24,6 +24,8 @@
 #include <rapids_triton/triton/deployment.hpp>  // rapids::DeploymentType
 #include <rapids_triton/triton/device.hpp>      // rapids::device_id_t
 
+#include <km.h>
+
 namespace triton {
 namespace backend {
 namespace NAMESPACE {
@@ -38,17 +40,28 @@ struct RapidsModel : rapids::Model<RapidsSharedState> {
                                          filepath) {}
 
   void predict(rapids::Batch& batch) const {
-    // TODO(template): Add prediction logic
+    auto matrix = get_input<float>(batch, "matrix");
+    auto vec1 = get_output<float>(batch, "vec1");
+    auto vec2 = get_output<float>(batch, "vec2");
+    auto cost = get_output<float>(batch, "cost");
+    
+    auto epsilon = get_shared_state()->epsilon_;
+    km(vec1.data(), vec2.data(), cost.data(), matrix.data(), epsilon);
+    
+    vec1.finalize();
+    vec2.finalize();
+    cost.finalize();
   }
 
   // TODO(template): Define any of the following only if necessary for your
   // backend
-  /* void load() {}
-  void unload() {}
+  // void load() {}
+  // void unload() {}
   std::optional<rapids::MemoryType> preferred_mem_type(rapids::Batch& batch)
   const {
+    return rapids::DeviceMemory;
   }
-  cudaStream_t get_stream() const {} */
+  // cudaStream_t get_stream() const {}
 
 };
 

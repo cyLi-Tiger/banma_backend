@@ -29,8 +29,12 @@ struct RapidsSharedState : rapids::SharedModelState {
   RapidsSharedState(std::unique_ptr<common::TritonJson::Value>&& config)
       : rapids::SharedModelState{std::move(config)} {}
   // TODO(template): Define the following only if necessary for your backend
-  /* void load() {}
-  void unload() {} */
+  void load() {
+    epsilon_ = get_config_param<float>("epsilon", "1e-4");
+  }
+  void unload() {} 
+
+  float epsilon_ = 1.0f;
 };
 
 }  // namespace NAMESPACE

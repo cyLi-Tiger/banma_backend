@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 ##############################################################################
 # - Target names -------------------------------------------------------------
 # TODO(template): Insert the name of your backend below
-set(BACKEND_NAME "REPLACE_ME")
+set(BACKEND_NAME "banma")
 set(BACKEND_TARGET "triton_${BACKEND_NAME}")
 
 
